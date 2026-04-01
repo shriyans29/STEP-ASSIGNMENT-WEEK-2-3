@@ -1,0 +1,58 @@
+class RiskLookup {
+    // Linear Search in unsorted array
+    static int linearSearch(int[] arr, int target) {
+        for(int i=0;i<arr.length;i++) {
+            if(arr[i]==target) return i;
+        }
+        return -1; // not found
+    }
+
+    // Binary Search in sorted array
+    static int binarySearch(int[] arr, int target) {
+        int low=0, high=arr.length-1;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(arr[mid]==target) return mid;
+            else if(arr[mid]<target) low=mid+1;
+            else high=mid-1;
+        }
+        return -1; // not found
+    }
+
+    // Find floor (largest ≤ target) and ceiling (smallest ≥ target)
+    static void floorCeil(int[] arr, int target) {
+        int low=0, high=arr.length-1;
+        int floor=-1, ceil=-1;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(arr[mid]==target){
+                floor=arr[mid]; ceil=arr[mid];
+                break;
+            } else if(arr[mid]<target){
+                floor=arr[mid];
+                low=mid+1;
+            } else {
+                ceil=arr[mid];
+                high=mid-1;
+            }
+        }
+        System.out.println("Target: " + target);
+        System.out.println("Floor: " + (floor==-1?"None":floor));
+        System.out.println("Ceiling: " + (ceil==-1?"None":ceil));
+    }
+}
+
+// =======================
+// Demo Main Class
+// =======================
+public class AuditSortingDemo {
+    public static void main(String[] args) {
+        // Example for Problem 6
+        int[] risks = {10, 25, 50, 100}; // sorted risk bands
+        int target = 30;
+
+        System.out.println("Linear Search index: " + RiskLookup.linearSearch(risks, target));
+        System.out.println("Binary Search index: " + RiskLookup.binarySearch(risks, target));
+        RiskLookup.floorCeil(risks, target);
+    }
+}
