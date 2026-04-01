@@ -1,0 +1,53 @@
+class Transaction {
+    String id;
+    double fee;
+    String timestamp; // simplified as string
+
+    Transaction(String id, double fee, String ts) {
+        this.id = id; this.fee = fee; this.timestamp = ts;
+    }
+}
+
+class TransactionSorter {
+    // Bubble Sort by fee
+    static void bubbleSort(Transaction[] arr) {
+        int n = arr.length;
+        boolean swapped;
+        for (int i = 0; i < n-1; i++) {
+            swapped = false;
+            for (int j = 0; j < n-i-1; j++) {
+                if (arr[j].fee > arr[j+1].fee) {
+                    Transaction temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) break; // early termination
+        }
+    }
+
+    // Insertion Sort by fee + timestamp
+    static void insertionSort(Transaction[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            Transaction key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && 
+                  (arr[j].fee > key.fee || 
+                  (arr[j].fee == key.fee && arr[j].timestamp.compareTo(key.timestamp) > 0))) {
+                arr[j+1] = arr[j];
+                j--;
+            }
+            arr[j+1] = key;
+        }
+    }
+
+    // Flag high-fee outliers
+    static void flagOutliers(Transaction[] arr) {
+        for (Transaction t : arr) {
+            if (t.fee > 50.0) {
+                System.out.println("High-fee outlier: " + t.id + " $" + t.fee);
+            }
+        }
+    }
+}
